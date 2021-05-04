@@ -1,0 +1,25 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Query {
+  users: [User!]!
+}
+
+type User {
+  city: String
+  country: String
+  createdAt: String!
+  email: String
+  facebookId: String
+  familyName: String
+  givenName: String
+  googleId: String
+  id: String!
+  password: String
+  roles: [String!]
+  twitterId: String
+  updatedAt: String!
+  username: String
+  verified: Boolean!
+}
