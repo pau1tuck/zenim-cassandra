@@ -9,8 +9,9 @@ import { AppService } from "./app.service";
     imports: [
         ExpressCassandraModule.forRoot({
             clientOptions: {
-                contactPoints: [process.env.DB_CONTACT_POINTS],
+                contactPoints: [String(process.env.DB_CONTACT_POINTS)],
                 protocolOptions: { port: Number(process.env.DB_PORT) },
+                keyspace: String(process.env.DB_KEYSPACE),
             },
         }),
         GraphQLModule.forRoot({
@@ -18,6 +19,7 @@ import { AppService } from "./app.service";
             playground: Boolean(process.env.DEBUG),
             installSubscriptionHandlers: true,
             autoSchemaFile: join(process.cwd(), "src/schema.gql"),
+            sortSchema: true,
         }),
     ],
     controllers: [AppController],
