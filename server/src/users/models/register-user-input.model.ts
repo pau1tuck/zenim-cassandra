@@ -3,19 +3,19 @@ import { InputType, Field } from "@nestjs/graphql";
 @InputType()
 export class RegisterUserInput {
     @Field({ nullable: true })
-    givenName: string;
+    givenName!: string;
 
     @Field({ nullable: true })
-    familyName?: string;
+    familyName!: string;
 
     @Field({ nullable: true })
-    country?: string;
+    country!: string;
 
     @Field({ nullable: true })
-    username?: string;
+    username!: string;
 
     @Field({ nullable: true })
-    email?: string;
+    email!: string;
 
     @Field({ nullable: true })
     password!: string;

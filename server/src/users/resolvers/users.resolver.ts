@@ -1,4 +1,3 @@
-import argon2 from "argon2";
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { RegisterUserInput } from "../models/register-user-input.model";
 import { User } from "../models/user.model";
@@ -15,7 +14,6 @@ export class UsersResolver {
 
     @Mutation(returns => Boolean)
     async register(@Args("input") input: RegisterUserInput) {
-        const encryptedPassword = await argon2.hash(input.password);
         return this.usersService.registerUser(input);
     }
 }

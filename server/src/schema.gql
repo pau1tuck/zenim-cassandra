@@ -2,8 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Mutation {
+  register(input: RegisterUserInput!): Boolean!
+}
+
 type Query {
   users: [User!]!
+}
+
+input RegisterUserInput {
+  country: String
+  email: String
+  familyName: String
+  givenName: String
+  password: String
+  username: String
 }
 
 type User {

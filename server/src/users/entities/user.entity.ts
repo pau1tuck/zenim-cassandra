@@ -51,7 +51,6 @@ export class UserEntity {
 
     @Column({
         type: "boolean",
-        default: "false",
     })
     verified!: boolean;
 

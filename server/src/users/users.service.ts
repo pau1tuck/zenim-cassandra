@@ -4,15 +4,6 @@ import { InjectModel, BaseModel } from "@iaminfinity/express-cassandra";
 import { UserEntity } from "./entities/user.entity";
 import { RegisterUserInput } from "./models/register-user-input.model";
 
-class RegisterUserDto {
-    readonly givenName: string;
-    readonly familyName: string;
-    readonly country: string;
-    readonly username: string;
-    readonly email: string;
-    readonly password!: string;
-}
-
 @Injectable()
 export class UsersService {
     constructor(
@@ -25,21 +16,12 @@ export class UsersService {
     }
 
     async registerUser(input: RegisterUserInput) {
-        const matchingUser = this.userModel.findOneAsync(
-            {
-                email: input.email,
-            },
-            { raw: true },
-        );
-        if (matchingUser) {
-            throw new Error("Email address already registered");
-        }
-
         const encryptedPassword = await argon2.hash(input.password);
 
         const newUser = new this.userModel({
             ...input,
             password: encryptedPassword,
+            verified: false,
         });
 
         try {
