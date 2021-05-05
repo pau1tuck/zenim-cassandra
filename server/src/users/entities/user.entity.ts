@@ -15,39 +15,44 @@ export class UserEntity {
     id!: string;
 
     @Column({
-        type: "varchar",
+        type: "text",
+    })
+    username?: string; // require unique table
+
+    @Column({
+        type: "text",
+    })
+    email?: string; // require unique table
+
+    @Column({
+        type: "text",
+    })
+    password!: string;
+
+    @Column({
+        type: "text",
+    })
+    displayName?: string;
+
+    @Column({
+        type: "text",
     })
     givenName?: string;
 
     @Column({
-        type: "varchar",
+        type: "text",
     })
     familyName?: string;
 
     @Column({
-        type: "varchar",
+        type: "text",
     })
     city?: string;
 
     @Column({
-        type: "varchar",
+        type: "text",
     })
     country?: string;
-
-    @Column({
-        type: "varchar",
-    })
-    username?: string;
-
-    @Column({
-        type: "varchar",
-    })
-    email?: string;
-
-    @Column({
-        type: "varchar",
-    })
-    password!: string;
 
     @Column({
         type: "boolean",
@@ -56,22 +61,22 @@ export class UserEntity {
 
     @Column({
         type: "list",
-        typeDef: "<varchar>",
+        typeDef: "<text>",
     })
     roles?: string[];
 
     @Column({
-        type: "varchar",
+        type: "text",
     })
     facebookId?: string;
 
     @Column({
-        type: "varchar",
+        type: "text",
     })
     googleId?: string;
 
     @Column({
-        type: "varchar",
+        type: "text",
     })
     twitterId?: string;
 
