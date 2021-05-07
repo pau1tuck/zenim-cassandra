@@ -5,9 +5,10 @@ import { ExpressCassandraModule } from "@iaminfinity/express-cassandra";
 import { GraphQLModule } from "@nestjs/graphql";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-import { UserEntity } from "./users/entities/user.entity";
-import { UsersService } from "./users/users.service";
-import { UsersResolver } from "./users/resolvers/users.resolver";
+import { UserEntity } from "./user/entities/user.entity";
+import { EmailLockEntity } from "./user/entities/columns/email-lock.entity";
+import { UserService } from "./user/services/user.service";
+import { UserResolver } from "./user/resolvers/user.resolver";
 
 @Module({
     imports: [
@@ -20,12 +21,15 @@ import { UsersResolver } from "./users/resolvers/users.resolver";
                 protocolOptions: { port: Number(process.env.DB_PORT) || 9042 },
                 keyspace: String(process.env.DB_KEYSPACE),
             },
+            ormOptions: {
+                migration: "drop",
+            },
         }) /*
         ExpressCassandraModule.forRootAsync({
             inject: [UsersService],
         }), */,
         // Load database entities
-        ExpressCassandraModule.forFeature([UserEntity]),
+        ExpressCassandraModule.forFeature([UserEntity, EmailLockEntity]),
         // Start GraphQL (TypeGraphQL)
         GraphQLModule.forRoot({
             debug: Boolean(process.env.DEBUG),
@@ -36,6 +40,6 @@ import { UsersResolver } from "./users/resolvers/users.resolver";
         }),
     ],
     controllers: [AppController],
-    providers: [AppService, UsersService, UsersResolver],
+    providers: [AppService, UserService, UserResolver],
 })
 export class AppModule {}
