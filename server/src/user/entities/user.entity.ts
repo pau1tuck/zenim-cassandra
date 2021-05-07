@@ -17,12 +17,7 @@ export class UserEntity {
     @Column({
         type: "text",
     })
-    username?: string; // require unique table
-
-    @Column({
-        type: "text",
-    })
-    email?: string; // require unique table
+    email?: string;
 
     @Column({
         type: "text",

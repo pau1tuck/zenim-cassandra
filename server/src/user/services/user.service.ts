@@ -21,6 +21,15 @@ export class UserService {
     async registerUser(input: RegisterUserInput) {
         const encryptedPassword = await argon2.hash(input.password);
 
+        const emailExists = await this.emailLockModel.findOneAsync(
+            { email: input.email },
+            { raw: true },
+        );
+
+        if (emailExists != undefined) {
+            throw new Error("Email address already registered");
+        }
+
         const newUser = new this.userModel({
             ...input,
             password: encryptedPassword,
@@ -28,10 +37,12 @@ export class UserService {
             roles: ["ADMIN", "MODERATOR"],
         });
 
+        const newEmail = new this.emailLockModel({ email: input.email });
+
         try {
+            newEmail.saveAsync();
             newUser.saveAsync();
         } catch (error) {
-            console.log(error);
             throw new Error(error);
         }
         return true;
