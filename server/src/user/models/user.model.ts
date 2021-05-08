@@ -42,8 +42,8 @@ export class UserModel {
     twitterId?: string;
 
     @Field()
-    createdAt!: string;
+    createdAt!: Date;
 
     @Field()
-    updatedAt!: string;
+    updatedAt!: Date;
 }
