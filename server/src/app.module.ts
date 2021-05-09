@@ -13,7 +13,7 @@ import { UserResolver } from "./user/resolvers/user.resolver";
 @Module({
     imports: [
         // Enable dotenv configuration
-        ConfigModule.forRoot({ isGlobal: true }),
+        ConfigModule.forRoot({ isGlobal: true, cache: true }),
         // Connect to Apache Cassandra database
         ExpressCassandraModule.forRoot({
             clientOptions: {
