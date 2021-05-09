@@ -2,8 +2,14 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type Mutation {
-  register(input: RegisterUserInput!): Boolean!
+  login(email: String!, password: String!): UserModel!
+  register(input: RegisterInput!): Boolean!
 }
 
 type Query {
@@ -11,7 +17,7 @@ type Query {
   currentUser: [UserModel!]!
 }
 
-input RegisterUserInput {
+input RegisterInput {
   country: String
   email: String
   familyName: String
@@ -23,7 +29,7 @@ input RegisterUserInput {
 type UserModel {
   city: String
   country: String
-  createdAt: String!
+  createdAt: DateTime!
   email: String
   facebookId: String
   familyName: String
@@ -33,7 +39,7 @@ type UserModel {
   password: String
   roles: [String!]
   twitterId: String
-  updatedAt: String!
+  updatedAt: DateTime!
   username: String
   verified: Boolean!
 }

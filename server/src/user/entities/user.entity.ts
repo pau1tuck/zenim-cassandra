@@ -9,7 +9,7 @@ import {
 
 @Entity({
     table_name: "user",
-    key: ["id"],
+    key: ["email", "id"],
 })
 export class UserEntity {
     @GeneratedUUidColumn()
