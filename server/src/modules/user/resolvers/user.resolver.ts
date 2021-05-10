@@ -1,8 +1,15 @@
-import { Session } from "@nestjs/common";
-import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
-import { RegisterInput } from "../models/register-new-user-input.model";
+import { Session, Request } from "@nestjs/common";
+import { Args, Mutation, Query, Resolver, Context } from "@nestjs/graphql";
 import { UserModel } from "../models/user.model";
 import { UserService } from "../services/user.service";
+import { RegisterInput } from "../models/register-new-user-input.model";
+import { AuthGuard } from "@nestjs/passport";
+
+interface IContext {
+    req: Request & { session: any };
+    res: Response;
+    payload?: { passport: { user: { userId: string; roles: string[] } } };
+}
 
 @Resolver((of: any) => UserModel)
 export class UserResolver {
@@ -10,7 +17,7 @@ export class UserResolver {
 
     @Query(returns => [UserModel])
     async allUsers() {
-        return this.userService.readAllUsers();
+        return this.userService.find();
     }
 
     @Query(returns => [UserModel])
@@ -27,8 +34,7 @@ export class UserResolver {
     async login(
         @Args("email") email: string,
         @Args("password") password: string,
-        @Session() session: Record<string, any>,
     ) {
-        return this.userService.login(email, password, session);
+        return this.userService.login(email, password);
     }
 }

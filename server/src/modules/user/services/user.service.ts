@@ -5,7 +5,6 @@ import { UserEntity } from "../entities/user.entity";
 import { EmailLockEntity } from "../entities/columns/email-lock.entity";
 import { RegisterInput } from "../models/register-new-user-input.model";
 import { UserModel } from "../models/user.model";
-import { Args } from "@nestjs/graphql";
 
 @Injectable()
 export class UserService {
@@ -16,8 +15,12 @@ export class UserService {
         private readonly emailLockModel: BaseModel<EmailLockEntity>,
     ) {}
 
-    async readAllUsers(): Promise<UserEntity[]> {
+    async find(): Promise<UserEntity[]> {
         return this.userModel.findAsync({}, { raw: true });
+    }
+
+    async findOne(email: string): Promise<UserEntity | undefined> {
+        return this.userModel.findOneAsync({ email }, { raw: true });
     }
 
     async readCurrentUser(session: any): Promise<UserModel | null> {
@@ -47,6 +50,8 @@ export class UserService {
         const newUser = new this.userModel({
             ...input,
             password: encryptedPassword,
+            verified: true,
+            roles: ["ADMIN", "MODERATOR"],
         });
 
         const newEmail = new this.emailLockModel({ email: input.email });
@@ -63,8 +68,7 @@ export class UserService {
     async login(
         email: string,
         password: string,
-        session: any,
-    ): Promise<UserModel | null> {
+    ): Promise<UserModel | undefined> {
         const matchingUser = await this.userModel.findOneAsync(
             { email: email },
             { raw: true },
@@ -87,10 +91,6 @@ export class UserService {
         if (!matchingUser.verified) {
             throw new Error("Email address not verified");
         }
-
-        session.passport = {
-            user: { userId: matchingUser.id, roles: matchingUser.roles },
-        };
 
         return matchingUser;
     }

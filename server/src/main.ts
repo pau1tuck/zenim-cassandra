@@ -3,6 +3,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import session from "express-session";
 import { sessionStore, redisClient } from "./config/redis.config";
+import passport from "passport";
 
 const bootstrap = async () => {
     const app = await NestFactory.create(AppModule);
@@ -27,6 +28,9 @@ const bootstrap = async () => {
         }),
     );
 
+    /* app.use(passport.initialize());
+    app.use(passport.session()); */
+
     redisClient.monitor((error, monitor) => {
         if (error) {
             console.log(error);
@@ -37,6 +41,8 @@ const bootstrap = async () => {
             });
         }
     });
+
+    console.log(app);
 
     await app.listen(5000);
 };

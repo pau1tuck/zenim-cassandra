@@ -4,7 +4,6 @@ import {
     CreateDateColumn,
     GeneratedUUidColumn,
     UpdateDateColumn,
-    IndexColumn,
 } from "@iaminfinity/express-cassandra";
 
 @Entity({
